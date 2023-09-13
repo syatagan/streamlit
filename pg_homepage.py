@@ -10,6 +10,7 @@ def app():
     st.markdown("- 🥗 Encourages healthy eating habits and helps consumers make informed decisions about food products.")
     st.markdown("- 💪 Empowers you to make safer choices in your product selection journey.")
     #image_url = "https://www.foodsafetynews.com/files/2020/06/Food-Safety-Hero-963x546.png"
-
+    image = "Datasets/resim1.jpg"
+    st.image(image, width=300)
 if __name__ == "__main__":
     app()
