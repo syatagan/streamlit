@@ -7,9 +7,11 @@ from Src.utils import *
 def search_product():
     search_text = st.session_state.txt_search
     df = read_food_data()
+    ##BAK hangi sütunlar çekilecekse loca liste gönderilmeli.
     cols = ["code", "product_name_en", "brands", "off:nova_groups", "off:nutriscore_grade", "url"]
     result_df = df.loc[(df["product_name_en"].str.contains(search_text)) |
                        (df["code"].astype(str).str.contains(search_text)), cols]
+    result_df = result_df.iloc[0:, :]
     ## if the result set contains only one product
     if (result_df.shape[0] == 0):
         st.session_state.notfound = "There is not any food product with " + search_text
@@ -43,10 +45,16 @@ def oneri_bul(product_code):
                 ~oneriler["allergens"].apply(lambda x: any(allergen in x for allergen in selected_allergens))]
 
         if not oneriler.empty:
-            st.markdown('## Products you might be interested in :mag:')
-            cols = ["code", "product_name_en", "brands", "off:nova_groups", "off:nutriscore_grade", "url", "allergens"]
-            recommendations_df = oneriler[cols]
-            pg_show_category_products.show_product_list(recommendations_df)
+            st.markdown('## Product you might be interested in :mag:')
+            recommendations_df = oneriler[["code", "product_name_en", "off:nova_groups", "off:nutriscore_grade", "allergens"]]
+            recommendations_df = recommendations_df.rename(columns={"code": "CODE",
+                                                                    "product_name_en": "PRODUCT NAME",
+                                                                    "off:nova_groups": "NOVA SCORE",
+                                                                    "off:nutriscore_grade": "NUTRITION SCORE",
+                                                                    "allergens": "ALLERGENS"})
+            recommendations_df = recommendations_df.style.set_table_styles([{'selector': 'th',
+                                                                             'props': [('font-weight', 'bold')]}])
+            st.table(recommendations_df)
         else:
             st.warning('No suitable recommendation found.😔')
     #else:
