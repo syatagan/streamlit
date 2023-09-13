@@ -67,7 +67,7 @@ def show_product_list(df):
                                        "font-size": "18px !important",
                                    }},
                                key="id_row",
-                               theme=AgGridTheme.STREAMLIT,
+                               theme="streamlit",
                                reload_data=True,
                                update_mode=GridUpdateMode.SELECTION_CHANGED,
                                )
