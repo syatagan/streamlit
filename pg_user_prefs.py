@@ -24,6 +24,9 @@ def save_pref_values():
 
 
 def app():
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
     with st.form(key="user_pref_form"):
         st.subheader("User Preferences")
         #####################################################################

@@ -39,21 +39,6 @@ render_image = JsCode('''
 '''
 )
 
-link_jscode = JsCode("""
-function(params) {
-	var element = document.createElement("span");
-	var linkElement = document.createElement("a");
-	var linkText = document.createTextNode(params.value);
-	link_url = params.value;
-	linkElement.appendChild(linkText);
-	linkText.title = params.value;
-	linkElement.href = link_url;
-	linkElement.target = "_blank";
-	element.appendChild(linkElement);
-	return element;
-};
-""")
-## var image_url = "https://images.openfoodfacts.org/images/products/931/001/524/1932/1.100.jpg";
 image_jscode = JsCode("""
 function(params) {
     var image_url = params.value;

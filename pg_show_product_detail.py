@@ -83,8 +83,8 @@ def show_Product_Detail(xproduct_code):
             for i, col_object in enumerate(col_obj_list):
                 allergen_key = Allergen_Pozitives_list[i]
                 allergen_icon = allergen_icons.get(allergen_key, "❓")
-                allergen_expression = allergen_expressions.get(allergen_key, "Unknown allergen")
-                col_object.error(f"{allergen_icon} {allergen_expression}")
+                allergen_expression = allergen_expressions.get(allergen_key, "*Unknown Allergen*")
+                col_object.error(f"{allergen_icon} **{allergen_expression}**")
 
             # Allerjen seçimi yapıldı ama allergens alanı boş
         if Allergen_Count == 0 and df["Allergen_Milk"].values[0] == "2":

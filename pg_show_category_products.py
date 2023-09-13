@@ -23,22 +23,27 @@ def get_category_product_list(xCategory):
     df = df.loc[df["Category_new"] == xCategory, cols]
     return df
 
+def go_product_detail():
+    if grd_Table['selected_rows']:
+        product_code = grd_Table['selected_rows'][0]['code']
+        st.write("code:", product_code)
+    else:
+        st.write("No row selected")
+
 def show_product_list(df):
-    try:
         #df = df.sort_values(by="product_name_en", ascending=True)
         df["img_small_url"] = df.apply(lambda x: x["url"].replace(".400.jpg", ".100.jpg"), axis=1)
-        grd = GridOptionsBuilder.from_dataframe(df)
+        grd = GridOptionsBuilder() #.from_dataframe(df)
         grd.configure_grid_options(rowHeight=100)
         grd.configure_pagination(enabled=True, paginationPageSize=10)
-        grd.configure_selection()
+        grd.configure_selection(selection_mode="single")
         grd.configure_column(field="code", header_name="Code", width=80)
-        grd.configure_column(field="url", header_name="", width=0)
         grd.configure_column(field="product_name_en", header_name="Name", width=100)
         grd.configure_column(field="brands", header_name="Brand", width=80)
-        grd.configure_column(field="off:nova_groups", header_name="NOVA", width=50)
-        grd.configure_column(field="off:nutriscore_grade", header_name="Nutrition", width=60)
+        grd.configure_column(field="off:nova_groups", header_name="NOVA Score", width=70)
+        grd.configure_column(field="off:nutriscore_grade", header_name="Nutrition Score", width=70)
         grd.configure_column(field="allergens", header_name="Allergens", width=80, cellStyle={'color': 'red'})
-        grd.configure_column(field="img_small_url", header_name="Image", cellStyle=image_jscode)
+        grd.configure_column(field="img_small_url", header_name="Image", cellStyle=image_jscode, width = 80)
         gridOptions = grd.build()
 
         grd_Table = AgGrid(data=df,
@@ -49,21 +54,19 @@ def show_product_list(df):
                            allow_unsafe_jscode=True,
                            custom_css={"#gridToolBar": {"padding-bottom": "0px !important"}},
                            theme="streamlit",
-                           key="id_row"
+                           key="id_row",
+                           reload_data=True,
+                           update_mode=GridUpdateMode.SELECTION_CHANGED
                            )
         if grd_Table['selected_rows']:
-            st.write("1")
             product_code = grd_Table['selected_rows'][0]['code']
-            if (str(product_code) != ""):
-                st.write("2")
-                pg_show_product_detail.app(product_code)
+            st.write("code:" , product_code)
         else:
             st.write("No row selected")
-    except:
-        st.error("Something went wrong when getting products")
 
 def app(xCategory = ""):
     if (xCategory != ""):
+        st.subheader(f"Products in {xCategory} Category")
         df = get_category_product_list(xCategory)
         show_product_list(df)
     else:

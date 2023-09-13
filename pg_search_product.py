@@ -7,11 +7,9 @@ from Src.utils import *
 def search_product():
     search_text = st.session_state.txt_search
     df = read_food_data()
-    ##BAK hangi sütunlar çekilecekse loca liste gönderilmeli.
-    cols = ["code", "product_name_en", "brands", "off:nova_groups", "off:nutriscore_grade", "url"]
+    cols = ["code", "product_name_en", "brands", "off:nova_groups", "off:nutriscore_grade", "url", "allergens"]
     result_df = df.loc[(df["product_name_en"].str.contains(search_text)) |
                        (df["code"].astype(str).str.contains(search_text)), cols]
-    result_df = result_df.iloc[0:, :]
     ## if the result set contains only one product
     if (result_df.shape[0] == 0):
         st.session_state.notfound = "There is not any food product with " + search_text
@@ -24,9 +22,19 @@ def search_product():
         pg_show_category_products.show_product_list(result_df)
 
 def show_Product_Search_Form():
+    st.markdown(" ")
+    st.markdown(" ")
+    st.markdown(" ")
     with st.form(key="product_search_form"):
-        st.text_input(label="Product", key="txt_search")
-        st.form_submit_button(label="Search",on_click=search_product)
+        st.subheader("Search Product")
+        st.markdown(" ")
+        st.markdown(" ")
+        st.text_input(label="", key="txt_search",placeholder = "Write Product Code Or Product Name")
+        st.markdown(" ")
+        st.markdown(" ")
+        st.form_submit_button(label="**Search**",on_click=search_product)
+        st.markdown(" ")
+        st.markdown(" ")
     if ("notfound" in st.session_state):
         if (st.session_state.notfound != ""):
             st.info(st.session_state.notfound)
@@ -46,19 +54,10 @@ def oneri_bul(product_code):
 
         if not oneriler.empty:
             st.markdown('## Product you might be interested in :mag:')
-            recommendations_df = oneriler[["code", "product_name_en", "off:nova_groups", "off:nutriscore_grade", "allergens"]]
-            recommendations_df = recommendations_df.rename(columns={"code": "CODE",
-                                                                    "product_name_en": "PRODUCT NAME",
-                                                                    "off:nova_groups": "NOVA SCORE",
-                                                                    "off:nutriscore_grade": "NUTRITION SCORE",
-                                                                    "allergens": "ALLERGENS"})
-            recommendations_df = recommendations_df.style.set_table_styles([{'selector': 'th',
-                                                                             'props': [('font-weight', 'bold')]}])
-            st.table(recommendations_df)
+            recommendations_df = oneriler[["code", "product_name_en", "off:nova_groups", "off:nutriscore_grade", "allergens", "url"]]
+            pg_show_category_products.show_product_list(recommendations_df)
         else:
             st.warning('No suitable recommendation found.😔')
-    #else:
-        #st.error('Ürün bulunamadı.')
 
 def app():
     show_Product_Search_Form()

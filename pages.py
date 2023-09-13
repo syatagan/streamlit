@@ -6,6 +6,7 @@ import pg_about
 import pg_user_prefs
 import pg_homepage
 from Src.utils import *
+from PIL import Image
 
 
 # Session state değişkenini tanımlayın
@@ -16,17 +17,10 @@ def init_session_state():
 # Her sayfada bu fonksiyonu çağırarak session state'i başlatın
 def main():
     init_session_state()
-
-    st.set_page_config(
-        page_title="Safe Food For Everyone",
-        page_icon="path_of_your_favicon",
-        layout="wide",
-        initial_sidebar_state="auto",
-    )
-
     local_css("style.css")
-    st.header("Safe Food for Everyone")
-
+    col1,  col2, col3 = st.sidebar.columns((1,2,1))
+    image_url = Image.open("Datasets/resim2.png")
+    col2.image(image_url, width=175)
     if (st.sidebar.button("User Preferences", type="secondary")):
         st.session_state.current_page = "pg_user_prefs"
         pg_user_prefs.app()
@@ -50,10 +44,15 @@ def main():
     if st.session_state.current_page == "pg_homepage":
         pg_homepage.app()
 
-
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
+    st.set_page_config(
+        page_title="Safe Food For Everyone",
+        page_icon="🌱",
+        layout="wide",
+        initial_sidebar_state="auto",
+    )
     main()

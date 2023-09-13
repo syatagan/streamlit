@@ -1,9 +1,9 @@
-h1{
-  color: navy;
+header{
+  color: orange;
   margin-left: 10px;
 }
-h2{
-  color: navy;
+subheader{
+  color: purple;
   margin-left: 10px;
 }
 error{
