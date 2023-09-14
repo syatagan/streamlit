@@ -12,7 +12,6 @@ def show_Product_Detail(xproduct_code):
         col1.image(df["url"].values[0], caption='', use_column_width=True)
         col2.header(df["product_name_en"].values[0])
         col2.markdown("**CODE** : " + str(df["code"].values[0]))
-        # split correction  ':'
         ingredients_text = df["ingredients_text_en"].values[0]
         if ":" in ingredients_text:
             ingredient_parts = ingredients_text.split(':')
@@ -34,22 +33,36 @@ def show_Product_Detail(xproduct_code):
         ########################################################################
         with st.container():
             col1, col2 = st.columns(2)
-            if pd.isna(df["off:nutriscore_grade"].values[0]):
-                col1.success("**NUTRITION SCORE** : No Information")
-            elif df["off:nutriscore_grade"].values[0] == "E":
-                col1.error("**NUTRITION SCORE** : E", icon="🚨")
+            show_nutritional_quality = True
+            if ("pref_nutritional_quality" in st.session_state):
+                if (st.session_state.pref_nutritional_quality == "Not Important"):
+                    show_nutritional_quality = False
+            if (show_nutritional_quality):
+                if pd.isna(df["off:nutriscore_grade"].values[0]):
+                    col1.success("**NUTRITION SCORE** : No Information")
+                elif df["off:nutriscore_grade"].values[0] == "E":
+                    col1.error("**NUTRITION SCORE** : E", icon="🚨")
+                else:
+                    col1.success(f"**NUTRITION SCORE** : " + df["off:nutriscore_grade"].values[0])
+        show_nova_quality = True
+        if ("pref_nova_quality" in st.session_state):
+            if (st.session_state.pref_nova_quality == "Not Important"):
+                show_nova_quality = False
+        if (show_nova_quality):
+            if (show_nutritional_quality):
+                colnova = col2
             else:
-                col1.success(f"**NUTRITION SCORE** : " + df["off:nutriscore_grade"].values[0])
+                colnova = col1
             df["off:nova_groups"] = df["off:nova_groups"].astype(str)
             if pd.isna(df["off:nova_groups"].values[0]):
-                col2.error("**NOVA SCORE** : No Information")
+                colnova.error("**NOVA SCORE** : No Information")
             elif df["off:nova_groups"].values[0] == "4":
-                col2.error("**NOVA SCORE** : 4", icon="🚨")
+                colnova.error("**NOVA SCORE** : 4", icon="🚨")
             else:
                 nova_score = df["off:nova_groups"].values[0]
                 nova_score = nova_score.replace(',', '.')
                 nova_score = int(float(nova_score))
-                col2.success(f"**NOVA SCORE** : {nova_score}")
+                colnova.success(f"**NOVA SCORE** : {nova_score}")
         #######################################################################
         # ALLERGENS
         ########################################################################
