@@ -46,8 +46,8 @@ def show_product_list(df):
         grd.configure_column(field="code", header_name="Code", width=80)
         grd.configure_column(field="product_name_en", header_name="Name", width=100)
         grd.configure_column(field="brands", header_name="Brand", width=80)
-        grd.configure_column(field="off:nova_groups", header_name="NOVA Score", width=70)
         grd.configure_column(field="off:nutriscore_grade", header_name="Nutrition Score", width=70)
+        grd.configure_column(field="off:nova_groups", header_name="NOVA Score", width=70)
         grd.configure_column(field="allergens", header_name="Allergens", width=80, cellStyle={'color': 'red'})
         grd.configure_column(field="img_small_url", header_name="Image", cellStyle=image_jscode, width = 80)
         gridOptions = grd.build()
@@ -71,6 +71,5 @@ def show_product_list(df):
                                reload_data=True,
                                update_mode=GridUpdateMode.SELECTION_CHANGED,
                                )
-
 
 

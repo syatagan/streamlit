@@ -18,17 +18,16 @@ def show_Product_Detail(xproduct_code):
             ingredient_parts = ingredients_text.split(':')
             if len(ingredient_parts) > 1:
                 ingredient_value = ingredient_parts[1].strip()
-                col2.markdown("**INGREDIENTS** : " + ingredient_value + "**")
+                col2.markdown("**INGREDIENTS** : " + ingredient_value)
             else:
-                col2.markdown("**INGREDIENTS** : ...")
+                col2.markdown("**INGREDIENTS** : " + ingredients_text)
         else:
-            col2.markdown("**INGREDIENTS : ...**")
-
-        col2.markdown("**BRAND** : " + df["brands"].values[0].upper())
+            col2.markdown("**INGREDIENTS** : " + ingredients_text)
+        col2.markdown("**BRAND** : " + df["brands"].values[0])
         if (str(df["stores"].values[0]) != ""):
-            col2.markdown("**STORES** : " + df["stores"].values[0].upper())
+            col2.markdown("**STORES** : " + df["stores"].values[0])
         else:
-            col2.markdown("**STORES** : ...")
+            col2.markdown("**STORES** : Carrefour")
         col2.markdown("**ALLERGENS** : " + df["allergens"].values[0])
         ########################################################################
         # SCORES
@@ -101,7 +100,7 @@ def check_allergens(df_product):
         df_product["Allergen_Soybeans"] = "2"
         return df_product
     else:
-        allergens = df_product["allergens"].values[0].split(", ")
+        allergens = df_product["allergens"].values[0].replace(" ","").split(",")
         chk = True
         df_product["Allergen_Milk"] = "0"
         if ("pref_Allergen_Milk" in st.session_state):
@@ -116,6 +115,7 @@ def check_allergens(df_product):
                 chk = False
         if (chk) & ("Gluten" in allergens):
             df_product["Allergen_Gluten"] = "1"
+        chk = True
         df_product["Allergen_Egg"] = "0"
         if ("pref_Allergen_Egg" in st.session_state):
             if (st.session_state.pref_Allergen_Egg == 0):
@@ -124,6 +124,7 @@ def check_allergens(df_product):
             df_product["Allergen_Egg"] = "1"
         if (chk) & ("Eggs" in allergens):
             df_product["Allergen_Egg"] = "1"
+        chk = True
         df_product["Allergen_Nut"] = "0"
         if ("pref_Allergen_Nut" in st.session_state):
             if (st.session_state.pref_Allergen_Nut == 0):
@@ -132,6 +133,7 @@ def check_allergens(df_product):
             df_product["Allergen_Nut"] = "1"
         if (chk) & ("Nuts" in allergens):
             df_product["Allergen_Nut"] = "1"
+        chk = True
         df_product["Allergen_Peanut"] = "0"
         if ("pref_Allergen_Peanut" in st.session_state):
             if (st.session_state.pref_Allergen_Peanut == 0):
@@ -140,6 +142,7 @@ def check_allergens(df_product):
             df_product["Allergen_Peanut"] = "1"
         if (chk) & ("Peanuts" in allergens):
             df_product["Allergen_Peanut"] = "1"
+        chk = True
         df_product["Allergen_Soybeans"] = "0"
         if ("pref_Allergen_Soybeans" in st.session_state):
             if (st.session_state.pref_Allergen_Soybeans == 0):

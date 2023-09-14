@@ -50,7 +50,7 @@ def local_css(file_name):
 
 if __name__ == "__main__":
     st.set_page_config(
-        page_title="Safe Food For Everyone",
+        page_title="FoodGuard",
         page_icon="🌱",
         layout="wide",
         initial_sidebar_state="auto",
