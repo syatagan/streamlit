@@ -40,7 +40,7 @@ def app():
                 st.radio("Nutritional Quality", ["Important", "Not Important"], index=1, horizontal=True,
                          key="nutritional_quality")
         else:
-            st.radio("Nutritional Quality", ["Important", "Not Important"], index=1, horizontal=True,
+            st.radio("Nutritional Quality", ["Important", "Not Important"], index=0, horizontal=True,
                      key="nutritional_quality")
         #####################################################################
         # Nova Quality
@@ -51,7 +51,7 @@ def app():
             else:
                 st.radio("Nova Quality", ["Important", "Not Important"], index=1, horizontal=True, key="nova_quality")
         else:
-            st.radio("Nova Quality", ["Important", "Not Important"], index=1, horizontal=True, key="nova_quality")
+            st.radio("Nova Quality", ["Important", "Not Important"], index=0, horizontal=True, key="nova_quality")
 
         #####################################################################
         st.write("Choose Your Allergens")
