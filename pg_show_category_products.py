@@ -32,10 +32,12 @@ def get_category_product_list(xCategory):
     return df
 
 def go_product_detail():
-    #st.write(st.session_state.id_row)
-    product_code = st.session_state.id_row['selectedRows'][0]['code']
-    pg_show_product_detail.app(product_code)
-
+    if ("id_row" in st.session_state):
+        if (st.session_state.id_row != None):
+            product_code = st.session_state.id_row['selectedRows'][0]['code']
+            pg_show_product_detail.app(product_code)
+        else:
+            app()
 
 def show_product_list(df):
         df["img_small_url"] = df.apply(lambda x: x["url"].replace(".400.jpg", ".100.jpg"), axis=1)
