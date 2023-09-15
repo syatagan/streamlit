@@ -34,27 +34,27 @@ def app():
         #####################################################################
         if ("pref_nutritional_quality" in st.session_state):
             if (str(st.session_state.pref_nutritional_quality) == "Important"):
-                st.radio("Nutritional Quality", ["Important", "Not Important"], index=0, horizontal=True,
+                st.radio("**Nutritional Quality**", ["Important", "Not Important"], index=0, horizontal=True,
                          key="nutritional_quality")
             else:
-                st.radio("Nutritional Quality", ["Important", "Not Important"], index=1, horizontal=True,
+                st.radio("**Nutritional Quality**", ["Important", "Not Important"], index=1, horizontal=True,
                          key="nutritional_quality")
         else:
-            st.radio("Nutritional Quality", ["Important", "Not Important"], index=0, horizontal=True,
+            st.radio("**Nutritional Quality**", ["Important", "Not Important"], index=0, horizontal=True,
                      key="nutritional_quality")
         #####################################################################
         # Nova Quality
         #####################################################################
         if ("pref_nova_quality" in st.session_state):
             if (str(st.session_state.pref_nova_quality) == "Important"):
-                st.radio("Nova Quality", ["Important", "Not Important"], index=0, horizontal=True, key="nova_quality")
+                st.radio("**Nova Quality (Food Processing)**", ["Important", "Not Important"], index=0, horizontal=True, key="nova_quality")
             else:
-                st.radio("Nova Quality", ["Important", "Not Important"], index=1, horizontal=True, key="nova_quality")
+                st.radio("**Nova Quality (Food Processing)**", ["Important", "Not Important"], index=1, horizontal=True, key="nova_quality")
         else:
-            st.radio("Nova Quality", ["Important", "Not Important"], index=0, horizontal=True, key="nova_quality")
+            st.radio("**Nova Quality (Food Processing)**", ["Important", "Not Important"], index=0, horizontal=True, key="nova_quality")
 
         #####################################################################
-        st.write("Choose Your Allergens")
+        st.write("**Choose Your Allergens**")
         col1, col2, col3 = st.columns(3)
         #####################################################################
         # Milk

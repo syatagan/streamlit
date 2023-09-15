@@ -17,7 +17,6 @@ def search_product():
     elif (result_df.shape[0] == 1):
         product_code = result_df["code"].values[0]
         pg_show_product_detail.app(product_code)
-        oneri_bul(product_code)
     else:
         pg_show_category_products.show_product_list(result_df)
 
@@ -39,25 +38,6 @@ def show_Product_Search_Form():
         if (st.session_state.notfound != ""):
             st.info(st.session_state.notfound)
             st.session_state.notfound = ""
-def oneri_bul(product_code):
-    df = read_food_data()
-    secilen_urun = df[df["code"] == product_code]
-    if not secilen_urun.empty:
-        secilen_urun = secilen_urun.iloc[0]
-        selected_allergens = secilen_urun["allergens"].split(", ")
-        oneriler = df[(df["off:nova_groups"] < secilen_urun["off:nova_groups"]) &
-                      (df["Category_new"] == secilen_urun["Category_new"])&
-                      (df["off:nutriscore_grade"] < secilen_urun["off:nutriscore_grade"])]
-        if selected_allergens:
-            oneriler = oneriler[
-                ~oneriler["allergens"].apply(lambda x: any(allergen in x for allergen in selected_allergens))]
-
-        if not oneriler.empty:
-            st.markdown('## Product you might be interested in :mag:')
-            recommendations_df = oneriler[["code", "product_name_en", "off:nova_groups", "off:nutriscore_grade", "allergens", "url"]]
-            pg_show_category_products.show_product_list(recommendations_df)
-        else:
-            st.warning('No suitable recommendation found.😔')
 
 def app():
     show_Product_Search_Form()

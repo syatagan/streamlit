@@ -11,3 +11,5 @@ def app():
     st.markdown("- 💪 Empowers you to make safer choices in your product selection journey.")
     #image_url = "https://www.foodsafetynews.com/files/2020/06/Food-Safety-Hero-963x546.png"
 
+    image_url = Image.open("Datasets/resim1.jpg")
+    st.image(image_url, width=300)

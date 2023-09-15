@@ -41,7 +41,13 @@ def go_product_detail():
 
 def show_product_list(df):
         df["img_small_url"] = df.apply(lambda x: x["url"].replace(".400.jpg", ".100.jpg"), axis=1)
-        grd = GridOptionsBuilder() #.from_dataframe(df)
+        grd = GridOptionsBuilder()
+        grd.configure_default_column(
+            resizable=True,
+            filterable=True,
+            sortable=True,
+            editable=False,
+        )
         grd.configure_grid_options(rowHeight=100)
         grd.configure_pagination(enabled=True, paginationPageSize=10)
         grd.configure_selection()
